@@ -1,5 +1,5 @@
 # Get user input:
-echo "Enter the Config Server URI [https://github.com/ciberkleid/app-config]: "
+echo "Enter the Config Server URI [https://github.com/markjschreiber/app-config]: "
 read GIT_URI
 echo "Enable C2C Networking? [Y]: "
 read C2C
@@ -8,12 +8,12 @@ read BUILD
 
 # Set variables
 CF_API=`cf api | head -1 | cut -c 25-${lastIndex}`
-GIT_URI=${GIT_URI:-https://github.com/ciberkleid/app-config}
+GIT_URI=${GIT_URI:-https://github.com/markjschreiber/app-config}
 C2C=${C2C:-Y}
 BUILD=${BUILD:-N}
 
 # Create Config Server JSON Config File
-echo "{\"git\": {\"uri\": \"${GIT_URI}\"}}" > cloud-config-uri.json
+echo "{\"git\": {\"uri\": \"${GIT_URI}\", \"proxy\": { \"http\": { \"host\": \"webproxy.merck.com\", \"port\": \"8080\" }}}}" > cloud-config-uri.json
 
 # Create services
 cf create-service p-config-server standard config-server -c cloud-config-uri.json
